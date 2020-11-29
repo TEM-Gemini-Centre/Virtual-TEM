@@ -1,4 +1,5 @@
 from vTEM.Rays import Ray, RayNode
+from math import atan
 
 
 class Lens(object):
@@ -37,17 +38,83 @@ class Lens(object):
     def __str__(self):
         return '{self.__class__.__name__} {self.name}: {self:.2f} | {self.x:.2f}/{self.size:.2f}'.format(self=self)
 
-    def __call__(self, *args, **kwargs):
-        pass
+    def __lt__(self, other):
+        return self.y < other
 
+    def __le__(self, other):
+        return self.y <= other
 
+    def __gt__(self, other):
+        return self.y > other
 
-    def show(self, ax, *args, **kwargs):
-        ax.plot([self.x - self.size / 2, self.x + self.size / 2], [self.y, self.y], *args, **kwargs)
+    def __ge__(self, other):
+        return self.y >= other
+
+    def __eq__(self, other):
+        return self.y == other
+
+    def __iadd__(self, other):
+        self.y = self.y + other
+        return self
+
+    def __isub__(self, other):
+        self.y = self.y - other
+        return self
+
+    def __add__(self, other):
+        return self.y + other
+
+    def __radd__(self, other):
+        return other + self.y
+
+    def __sub__(self, other):
+        return self.y - other
+
+    def __rsub__(self, other):
+        return other - self.y
+
+    def __mul__(self, other):
+        return self.y * other
+
+    def __rmul__(self, other):
+        return other * self.y
+
+    def __truediv__(self, other):
+        return self.y / other
+
+    def __rtruediv__(self, other):
+        return other / self.y
+
+    def __pow__(self, power, modulo=None):
+        return self.y.__pow__(power, modulo)
+
+    def __call__(self, ray, *args, **kwargs):
+        if not isinstance(ray, Ray):
+            raise TypeError('Ray {ray!r} must be type Ray, not {t}'.format(ray=ray, t=type(ray)))
+
+        if not self < ray.start:
+            raise ValueError('Lens {self} must be positioned after start of ray {ray}'.format(self=self, ray=ray))
+        ray.extend(self.y)
+        transmitted_ray = Ray(ray.stop, RayNode(self.x, self.y - self.focal_length))
+        transmitted_ray.set_angle(ray.angle(deg=False) - atan((transmitted_ray.start.x - self.x) / self.focal_length),
+                                  deg=False)
+        if transmitted_ray.start < transmitted_ray.stop:
+            transmitted_ray = Ray(RayNode(transmitted_ray.stop), RayNode(transmitted_ray.start),
+                                  name=transmitted_ray.name)
+        transmitted_ray.extend(self.y - self.focal_length)
+        transmitted_ray.cut(self.y)
+        return transmitted_ray
+
+    def show(self, ax, *args, lensprops=None):#, **kwargs):
+        plotstyle = {'ffp': {'linestyle': '--', 'color': 'k', 'alpha': 0.2}, 'bfp': {'linestyle': '--', 'color': 'k', 'alpha': 0.2}, 'lens': {'linestyle': '-', 'color': 'k', 'alpha': 0.5}}
+        if lensprops is None:
+            lensprops = {}
+        plotstyle.update(lensprops)
+        ax.plot([self.x - self.size / 2, self.x + self.size / 2], [self.y, self.y], *args, **plotstyle.get('lens'))
         ax.plot([self.x - self.size / 2, self.x + self.size / 2],
-                [self.y + self.focal_length, self.y + self.focal_length], *args, **kwargs)
+                [self.y + self.focal_length, self.y + self.focal_length], *args, **plotstyle.get('ffp'))
         ax.plot([self.x - self.size / 2, self.x + self.size / 2],
-                [self.y - self.focal_length, self.y - self.focal_length], *args, **kwargs)
+                [self.y - self.focal_length, self.y - self.focal_length], *args, **plotstyle.get('bfp'))
         ax.annotate('{self.name}'.format(self=self), xy=(self.x + self.size / 2, self.y), ha='left', va='center')
         ax.annotate('{self.name} FFP'.format(self=self), xy=(self.x + self.size / 2, self.y + self.focal_length),
                     ha='left', va='center')

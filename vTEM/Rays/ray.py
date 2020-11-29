@@ -25,7 +25,7 @@ class RayNode(object):
             if isinstance(pos, RayNode):
                 x = pos.x
                 y = pos.y
-                name = RayNode.name
+                name = pos.name
             elif isinstance(pos, (tuple, list, np.ndarray)):
                 if not len(pos) == 2:
                     raise TypeError(
@@ -171,7 +171,7 @@ class RayNode(object):
         ax.plot(self.x, self.y, *args, **kwargs)
 
 
-class RaySegment(object):
+class Ray(object):
     """
     A ray object describing a ray path
     """
@@ -342,7 +342,24 @@ class RaySegment(object):
             self.stop.y = y
         self.set_angle(angle, fixed='start')
 
-    def x_at_y(self, y, relative = False):
+    def cut(self, y, relative=False):
+        """
+        Cut the ray a distance from the start, making this the new start point.
+
+        :param y: Distance along optical axis
+        :param relative: Whether the distance should be measured relative to the start point or in absolute coordinates. Defalt is False
+        :type y: float
+        :type relative: bool
+        :return:
+        """
+        angle = self.angle()
+        if relative:
+            self.start.y = self.start.y - y
+        else:
+            self.start.y = y
+        self.set_angle(angle, fixed='stop')
+
+    def x_at_y(self, y, relative=False):
         """
         Return the x-position at position y along line.
         :param y: The position to "extrapolate" to.
@@ -371,106 +388,107 @@ class RaySegment(object):
         """
         self.start.show(ax, 'kx')
         self.stop.show(ax, 'kx')
-        ax.plot((self.start.x, self.stop.x), (self.start.y, self.stop.y), *args, **kwargs)
+        #ax.plot((self.start.x, self.stop.x), (self.start.y, self.stop.y), *args, **kwargs)
+        ax.annotate('', xy=(self.stop.x, self.stop.y), xytext=(self.start.x, self.start.y), arrowprops={'arrowstyle': '->'})
 
 
-class Ray(object):
-    """
-    A ray consisting of several segments between nodes.
-    """
-
-    def __init__(self, source, end):
-        """
-        Create a ray between a source and an end with nodes in between.
-        :param source: The source of the ray
-        :param end: The end of the ray
-        :type source: RayNode
-        :type end: RayNode
-        """
-
-        if not isinstance(source, RayNode):
-            raise TypeError(
-                'Source must be a RayNode, not {source!r} of type {t}'.format(source=source, t=type(source)))
-
-        if not isinstance(end, RayNode):
-            raise TypeError('End must be a RayNode, not {end!r} of type {t}'.format(end=end, t=type(end)))
-
-        self.source = source
-        self.end = end
-        # self.nodes = list([self.source, self.end])
-        self.segments = list([RaySegment(self.source, self.end)])
-
-        # self.nodes.sort(key=lambda x: x.y)
-        # if self.source not in self.nodes:
-        #    self.nodes.insert(0, self.source)
-        # if self.end not in self.nodes:
-        #    self.nodes.insert(-1, self.end)
-        # self.segments = [RaySegment(A, B) for A, B in zip(self.nodes[:-1], self.nodes[1:])]
-
-    def __repr__(self):
-        return '{self.__class__.__name__}({self.source!r}, {self.end!r})'.format(self=self)
-
-    def __format__(self, format_spec):
-        return '\n'.join(['{segment:{f}}'.format(segment=segment, f=format_spec) for segment in self.segments])
-
-    def __str__(self):
-        return '{self.__class__.__name__} with segments:\n{self:.2f}'.format(self=self)
-
-    # def __setitem__(self, key, value):
-    #     if not isinstance(value, RayNode):
-    #         raise TypeError('Only RayNode objects can be set in a Ray')
-    #     self.nodes[key] = value
-
-    def __getitem__(self, item):
-        return self.segments[item]
-
-    def __iter__(self):
-        for segment in self.segments:
-            yield segment
-
-    def __iadd__(self, other):
-        self.add_node(other)
-        return self
-
-    def __isub__(self, other):
-        self.remove_node(other)
-        return self
-
-    def add_node(self, node):
-        if not isinstance(node, RayNode):
-            raise TypeError('Only RayNodes may be added to a Ray')
-        added = False
-        for segment_number, segment in enumerate(self):
-            if segment.start >= node.y >= segment.stop:
-                new_segment = RaySegment(node, segment.stop)
-                segment.stop = node
-                self.segments.insert(segment_number + 1, new_segment)
-                added = True
-                break
-        if not added:
-            raise ValueError(
-                'Could not add Node {node!r} to {self!r}. It does not fit between {self.source!r} and {self.end!r}'.format(
-                    node=node, self=self))
-
-    def remove_node(self, node):
-        if not isinstance(node, RayNode):
-            raise TypeError('Only RayNodes may be removed from a Ray')
-        removed = False
-        for segment_number, segment in enumerate(self):
-            if segment.stop is node:
-                segment.stop = self[segment_number + 1].stop
-                self[segment_number + 1].start = segment.start
-                removed = True
-                break
-        if not removed:
-            raise ValueError(
-                'Node {node!r} could not be removed from {self!r}. It was not found in the segments.'.format(node=node, self=self))
-
-    def get_nodes(self):
-        return [segment.start for segment in self].append(self[-1].stop)
-
-    def show(self, ax, *args, **kwargs):
-        [segment.show(ax, *args, **kwargs) for segment in self]
+# class Ray(object):
+#     """
+#     A ray consisting of several segments between nodes.
+#     """
+#
+#     def __init__(self, source, end):
+#         """
+#         Create a ray between a source and an end with nodes in between.
+#         :param source: The source of the ray
+#         :param end: The end of the ray
+#         :type source: RayNode
+#         :type end: RayNode
+#         """
+#
+#         if not isinstance(source, RayNode):
+#             raise TypeError(
+#                 'Source must be a RayNode, not {source!r} of type {t}'.format(source=source, t=type(source)))
+#
+#         if not isinstance(end, RayNode):
+#             raise TypeError('End must be a RayNode, not {end!r} of type {t}'.format(end=end, t=type(end)))
+#
+#         self.source = source
+#         self.end = end
+#         # self.nodes = list([self.source, self.end])
+#         self.segments = list([RaySegment(self.source, self.end)])
+#
+#         # self.nodes.sort(key=lambda x: x.y)
+#         # if self.source not in self.nodes:
+#         #    self.nodes.insert(0, self.source)
+#         # if self.end not in self.nodes:
+#         #    self.nodes.insert(-1, self.end)
+#         # self.segments = [RaySegment(A, B) for A, B in zip(self.nodes[:-1], self.nodes[1:])]
+#
+#     def __repr__(self):
+#         return '{self.__class__.__name__}({self.source!r}, {self.end!r})'.format(self=self)
+#
+#     def __format__(self, format_spec):
+#         return '\n'.join(['{segment:{f}}'.format(segment=segment, f=format_spec) for segment in self.segments])
+#
+#     def __str__(self):
+#         return '{self.__class__.__name__} with segments:\n{self:.2f}'.format(self=self)
+#
+#     # def __setitem__(self, key, value):
+#     #     if not isinstance(value, RayNode):
+#     #         raise TypeError('Only RayNode objects can be set in a Ray')
+#     #     self.nodes[key] = value
+#
+#     def __getitem__(self, item):
+#         return self.segments[item]
+#
+#     def __iter__(self):
+#         for segment in self.segments:
+#             yield segment
+#
+#     def __iadd__(self, other):
+#         self.add_node(other)
+#         return self
+#
+#     def __isub__(self, other):
+#         self.remove_node(other)
+#         return self
+#
+#     def add_node(self, node):
+#         if not isinstance(node, RayNode):
+#             raise TypeError('Only RayNodes may be added to a Ray')
+#         added = False
+#         for segment_number, segment in enumerate(self):
+#             if segment.start >= node.y >= segment.stop:
+#                 new_segment = RaySegment(node, segment.stop)
+#                 segment.stop = node
+#                 self.segments.insert(segment_number + 1, new_segment)
+#                 added = True
+#                 break
+#         if not added:
+#             raise ValueError(
+#                 'Could not add Node {node!r} to {self!r}. It does not fit between {self.source!r} and {self.end!r}'.format(
+#                     node=node, self=self))
+#
+#     def remove_node(self, node):
+#         if not isinstance(node, RayNode):
+#             raise TypeError('Only RayNodes may be removed from a Ray')
+#         removed = False
+#         for segment_number, segment in enumerate(self):
+#             if segment.stop is node:
+#                 segment.stop = self[segment_number + 1].stop
+#                 self[segment_number + 1].start = segment.start
+#                 removed = True
+#                 break
+#         if not removed:
+#             raise ValueError(
+#                 'Node {node!r} could not be removed from {self!r}. It was not found in the segments.'.format(node=node, self=self))
+#
+#     def get_nodes(self):
+#         return [segment.start for segment in self].append(self[-1].stop)
+#
+#     def show(self, ax, *args, **kwargs):
+#         [segment.show(ax, *args, **kwargs) for segment in self]
 
 
 def reduce_angle(angle):
