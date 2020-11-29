@@ -377,19 +377,25 @@ class Ray(object):
             dy = self.start.y - y
         return dy * tan(self.angle(deg=False))
 
-    def show(self, ax, *args, **kwargs):
+    def show(self, ax, *args, arrowprops=None, **kwargs):
         """
         Show the ray in the axes
         :param ax: The axes to show the ray in.
-        :param args: Optional positional arguments passed to ax.plot()
-        :param kwargs: Optional keyword arguments passed to ax.plot()
+        :param arrowprops: Arrowprops dictionary passed to ax.annotate()
+        :param args: Optional positional arguments passed to RayNode.show()
+        :param kwargs: Optional keyword arguments passed to RayNode.show()
         :type ax: matplotlib.pyplot.axes
         :return:
         """
-        self.start.show(ax, 'kx')
-        self.stop.show(ax, 'kx')
-        #ax.plot((self.start.x, self.stop.x), (self.start.y, self.stop.y), *args, **kwargs)
-        ax.annotate('', xy=(self.stop.x, self.stop.y), xytext=(self.start.x, self.start.y), arrowprops={'arrowstyle': '->'})
+        plotstyle = {'arrowstyle': '->', 'shrinkA': 0, 'shrinkB': 0}
+        if arrowprops is None:
+            arrowprops = {}
+        plotstyle.update(arrowprops)
+
+        self.start.show(ax, *args, **kwargs)
+        self.stop.show(ax, *args, **kwargs)
+        # ax.plot((self.start.x, self.stop.x), (self.start.y, self.stop.y), *args, **kwargs)
+        ax.annotate('', xy=(self.stop.x, self.stop.y), xytext=(self.start.x, self.start.y), arrowprops=plotstyle)
 
 
 # class Ray(object):
