@@ -105,8 +105,22 @@ class Lens(object):
         transmitted_ray.cut(self.y)
         return transmitted_ray
 
-    def show(self, ax, *args, lensprops=None):#, **kwargs):
-        plotstyle = {'ffp': {'linestyle': '--', 'color': 'k', 'alpha': 0.2}, 'bfp': {'linestyle': '--', 'color': 'k', 'alpha': 0.2}, 'lens': {'linestyle': '-', 'color': 'k', 'alpha': 0.5}}
+    def set_x(self, x):
+        self.x = float(x)
+
+    def set_f(self, f):
+        self.focal_length = abs(float(f))
+
+    def set_y(self, y):
+        self.y = float(y)
+
+    def set_size(self, size):
+        self.size = abs(float(size))
+
+    def show(self, ax, *args, lensprops=None):  # , **kwargs):
+        plotstyle = {'ffp': {'linestyle': '--', 'color': 'k', 'alpha': 0.2},
+                     'bfp': {'linestyle': '--', 'color': 'k', 'alpha': 0.2},
+                     'lens': {'linestyle': '-', 'color': 'k', 'alpha': 0.5}}
         if lensprops is None:
             lensprops = {}
         plotstyle.update(lensprops)
@@ -120,3 +134,64 @@ class Lens(object):
                     ha='left', va='center')
         ax.annotate('{self.name} BFP'.format(self=self), xy=(self.x + self.size / 2, self.y - self.focal_length),
                     ha='left', va='center')
+
+
+class Source(object):
+    """
+    A source capable of emitting rays
+    """
+
+    def __init__(self, x, y, size, name=''):
+        """
+        Create a new source
+        :param x: x-position of source (position of source centre perpendicular to the optical axis)
+        :param y: y-position of source (position of source along the optical axis)
+        :param size: Size of the source
+        :param name: Name of the source. Default is ""
+        :type x: float
+        :type y: float
+        :type size: float
+        :type name: str
+        """
+        self.x = float(x)
+        self.y = float(y)
+        self.size = abs(float(size))
+        self.name = str(name)
+
+    def __str__(self):
+        return '{self.__class__.__name__} {self.name} with size {self.size:.2f} at ({self.x:.2f}, {self.y:.2f})'.format(
+            self=self)
+
+    def set_x(self, x):
+        self.x = float(x)
+
+    def set_y(self, y):
+        self.y = float(y)
+
+    def set_size(self, size):
+        self.size = abs(float(size))
+
+    def show(self, ax, *args, **kwargs):
+        """
+        Show the source
+        :param ax: matplotlib.pyplot.Axes object
+        :param args: optional positional arguments passed to ax.plot()
+        :param kwargs: Optional keyword arguments passed to ax.plot()
+        :return:
+        """
+        ax.plot((self.x - self.size / 2, self.x + self.size / 2), (self.y, self.y))
+
+    def emit_ray(self, angle, position=0, length=1):
+        """
+        Return a ray emitted from the source
+        :param length: The length of the emitted ray along the optical axis.
+        :param angle: The angle of the emitted ray in degrees
+        :param position: The initial point of the ray in a fraction of the size of the ray
+        :return: The emitted ray
+        :rtype: Ray
+        """
+        start = RayNode(self.x + (position * self.size / 2), self.y)
+        stop = RayNode(self.x, self.y - abs(length))
+        ray = Ray(start, stop, angle=angle, name='Emitted from {self.name}'.format(self=self))
+        # ray.extend(abs(length), relative=True)
+        return ray
