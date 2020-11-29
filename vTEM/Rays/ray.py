@@ -342,6 +342,24 @@ class RaySegment(object):
             self.stop.y = y
         self.set_angle(angle, fixed='start')
 
+    def x_at_y(self, y, relative = False):
+        """
+        Return the x-position at position y along line.
+        :param y: The position to "extrapolate" to.
+        :type y: float
+        :param relative: Whether y is relative to start of ray or absolute
+        :type relative: bool
+        :return: The x-position at y along line
+        :rtype: float
+        """
+        if not self.start.y > y > self.stop.y:
+            raise ValueError('Position {y!r} does not lie within y-range of raysegment {self!r}'.format(y=y, self=self))
+        if relative:
+            dy = y
+        else:
+            dy = self.start.y - y
+        return dy * tan(self.angle(deg=False))
+
     def show(self, ax, *args, **kwargs):
         """
         Show the ray in the axes
