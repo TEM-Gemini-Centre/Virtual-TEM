@@ -377,7 +377,7 @@ class Ray(object):
             dy = self.start.y - y
         return dy * tan(self.angle(deg=False))
 
-    def show(self, ax, *args, arrowprops=None, **kwargs):
+    def show(self, ax, *args, arrowprops=None, show_label=False, **kwargs):
         """
         Show the ray in the axes
         :param ax: The axes to show the ray in.
@@ -395,7 +395,10 @@ class Ray(object):
         self.start.show(ax, *args, **kwargs)
         self.stop.show(ax, *args, **kwargs)
         # ax.plot((self.start.x, self.stop.x), (self.start.y, self.stop.y), *args, **kwargs)
+
         ax.annotate('', xy=(self.stop.x, self.stop.y), xytext=(self.start.x, self.start.y), arrowprops=plotstyle)
+        if show_label:
+            ax.annotate(self.name, xy=(self.stop.x, self.stop.y), ha='left', va='center')
 
 
 # class Ray(object):

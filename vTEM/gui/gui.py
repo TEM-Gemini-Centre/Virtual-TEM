@@ -107,11 +107,11 @@ class vTEMController(object):
         self.setup_source_control()
         self.setup_lens_control()
         self.setup_screen_control()
+        self.setup_style_control()
         self._view.plotPushButton.clicked.connect(self.show)
         self._model.updated.connect(self.show)
 
-        for lens in self._model:
-            print(lens)
+        self.show()
 
     def setup_source_control(self):
         self._view.sourceXSpinBox.valueChanged.connect(lambda x: self._model.change_source(x=x))
@@ -191,6 +191,30 @@ class vTEMController(object):
         self._view.il3FSpinBox.setSingleStep(0.1)
         self._view.plFSpinBox.setSingleStep(0.1)
 
+    def setup_style_control(self):
+        self._view.lensStyleComboBox.currentIndexChanged.connect(self.show)
+        self._view.lensColorComboBox.currentIndexChanged.connect(self.show)
+        self._view.lensLinewidthSpinBox.valueChanged.connect(self.show)
+        self._view.lensAlphaSpinBox.valueChanged.connect(self.show)
+        self._view.lensLabelCheckBox.clicked.connect(self.show)
+
+        self._view.lensStyleComboBox.currentIndexChanged.connect(self.show)
+        self._view.focalPlaneColorComboBox.currentIndexChanged.connect(self.show)
+        self._view.focalPlaneLinewidthSpinBox.valueChanged.connect(self.show)
+        self._view.focalPlaneAlphaSpinBox.valueChanged.connect(self.show)
+        self._view.focalPlaneLabelCheckBox.clicked.connect(self.show)
+
+        self._view.imagePlaneStyleComboBox.currentIndexChanged.connect(self.show)
+        self._view.imagePlaneColorComboBox.currentIndexChanged.connect(self.show)
+        self._view.imagePlaneLinewidthSpinBox.valueChanged.connect(self.show)
+        self._view.imagePlaneAlphaSpinBox.valueChanged.connect(self.show)
+        self._view.imagePlaneLabelCheckBox.clicked.connect(self.show)
+
+        self._view.rayColorComboBox.currentIndexChanged.connect(self.show)
+        self._view.rayLinewidthSpinBox.valueChanged.connect(self.show)
+        self._view.rayAlphaSpinBox.valueChanged.connect(self.show)
+        self._view.rayLabelCheckBox.clicked.connect(self.show)
+
     def set_y_spinbox_limits(self):
         self._view.cl1YSpinBox.setMaximum(self._model.source.y-1e-2)
         self._view.cl2YSpinBox.setMaximum(self._model.CL1.y - 1e-2)
@@ -239,7 +263,6 @@ class vTEMController(object):
         self._view.cl3YSpinBox.valueChanged.connect(lambda y: self._view.cl2YSpinBox.setMinimum(y+1e-2))
         self._view.cl2YSpinBox.valueChanged.connect(lambda y: self._view.cl1YSpinBox.setMinimum(y+1e-2))
         self._view.cl1YSpinBox.valueChanged.connect(lambda y: self._view.sourceYSpinBox.setMinimum(y+1e-2))
-
 
     def get_active_lenses(self, names=False):
         active_lenses = []
@@ -297,25 +320,28 @@ class vTEMController(object):
     def show_source(self):
         self._model.source.show(self._view.plotWidget.canvas.ax)
 
-
-    def show_lenses(self, resize=False):
+    def show_lenses(self):
         for lens in self.get_active_lenses():
             lens.show(self._view.plotWidget.canvas.ax, lensprops={
                 'ffp': {'linestyle': self._view.focalPlaneStyleComboBox.currentText(),
+                        'linewidth': self._view.focalPlaneLinewidthSpinBox.value(),
                         'color': self._view.focalPlaneColorComboBox.currentText(),
                         'alpha': self._view.focalPlaneAlphaSpinBox.value()},
                 'bfp': {'linestyle': self._view.focalPlaneStyleComboBox.currentText(),
+                        'linewidth': self._view.focalPlaneLinewidthSpinBox.value(),
                         'color': self._view.focalPlaneColorComboBox.currentText(),
                         'alpha': self._view.focalPlaneAlphaSpinBox.value()},
                 'lens': {'linestyle': self._view.lensStyleComboBox.currentText(),
+                         'linewidth': self._view.lensLinewidthSpinBox.value(),
                          'color': self._view.lensColorComboBox.currentText(),
-                         'alpha': self._view.lensAlphaSpinBox.value()}})
+                         'alpha': self._view.lensAlphaSpinBox.value()}},
+                      label_lens = self._view.lensLabelCheckBox.isChecked(),
+                      label_focal_planes = self._view.focalPlaneLabelCheckBox.isChecked())
 
     def show_raytrace(self, initial_ray=None):
         raytraces = self.make_raytrace(initial_ray)
         for ray in raytraces:
-            ray.show(self._view.plotWidget.canvas.ax, arrowprops={'color': self._view.rayColorComboBox.currentText(),
-                                                                  'alpha': self._view.rayAlphaSpinBox.value()})
+            ray.show(self._view.plotWidget.canvas.ax, show_label=self._view.rayLabelCheckBox.isChecked(), arrowprops={'color': self._view.rayColorComboBox.currentText(), 'alpha': self._view.rayAlphaSpinBox.value(),'lw': self._view.rayLinewidthSpinBox.value()})
 
         return raytraces
 
@@ -327,7 +353,7 @@ class vTEMController(object):
             symmetric_rays = self.show_raytrace(initial_ray = self._model.source.emit_ray(-self._view.sourceAngleSpinBox.value(), -1))
             raytraces = raytraces + symmetric_rays
         self.resize_lenses(min([ray.stop.x for ray in raytraces]), max([ray.stop.x for ray in raytraces]))
-        self.show_lenses(resize=True)
+        self.show_lenses()
         self._view.plotWidget.canvas.draw()
 
 

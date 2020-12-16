@@ -117,7 +117,7 @@ class Lens(object):
     def set_size(self, size):
         self.size = abs(float(size))
 
-    def show(self, ax, *args, lensprops=None):  # , **kwargs):
+    def show(self, ax, *args, lensprops=None, label_lens = True, label_focal_planes=True):  # , **kwargs):
         plotstyle = {'ffp': {'linestyle': '--', 'color': 'k', 'alpha': 0.2},
                      'bfp': {'linestyle': '--', 'color': 'k', 'alpha': 0.2},
                      'lens': {'linestyle': '-', 'color': 'k', 'alpha': 0.5},
@@ -131,11 +131,14 @@ class Lens(object):
         ax.plot([self.x - self.size / 2, self.x + self.size / 2],
                 [self.y - self.focal_length, self.y - self.focal_length], *args, **plotstyle.get('bfp'))
         ax.plot([self.x, self.x], [self.y + self.focal_length, self.y + self.focal_length], *args, **plotstyle.get('axis'))
-        ax.annotate('{self.name}'.format(self=self), xy=(self.x + self.size / 2, self.y), ha='left', va='center')
-        ax.annotate('{self.name} FFP'.format(self=self), xy=(self.x + self.size / 2, self.y + self.focal_length),
-                    ha='left', va='center')
-        ax.annotate('{self.name} BFP'.format(self=self), xy=(self.x + self.size / 2, self.y - self.focal_length),
-                    ha='left', va='center')
+
+        if label_lens:
+            ax.annotate('{self.name}'.format(self=self), xy=(self.x + self.size / 2, self.y), ha='left', va='center')
+        if label_focal_planes:
+            ax.annotate('{self.name} FFP'.format(self=self), xy=(self.x + self.size / 2, self.y + self.focal_length),
+                        ha='left', va='center')
+            ax.annotate('{self.name} BFP'.format(self=self), xy=(self.x + self.size / 2, self.y - self.focal_length),
+                        ha='left', va='center')
 
 
 class Source(object):
