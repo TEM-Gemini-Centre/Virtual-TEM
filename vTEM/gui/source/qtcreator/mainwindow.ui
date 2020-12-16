@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>777</width>
-    <height>799</height>
+    <height>852</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -37,15 +37,36 @@
              <string>Source</string>
             </property>
             <layout class="QGridLayout" name="gridLayout_5">
-             <item row="0" column="4">
-              <widget class="QLabel" name="label_14">
+             <item row="0" column="1">
+              <widget class="QLabel" name="label_13">
                <property name="text">
-                <string>Angle</string>
+                <string>X</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="3">
+              <widget class="QLabel" name="label_15">
+               <property name="text">
+                <string>Size</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="3">
+              <widget class="QDoubleSpinBox" name="sourceSizeSpinBox">
+               <property name="singleStep">
+                <double>0.100000000000000</double>
+               </property>
+               <property name="value">
+                <double>1.000000000000000</double>
                </property>
               </widget>
              </item>
              <item row="1" column="1">
-              <widget class="QDoubleSpinBox" name="sourceXSpinBox"/>
+              <widget class="QDoubleSpinBox" name="sourceXSpinBox">
+               <property name="singleStep">
+                <double>0.100000000000000</double>
+               </property>
+              </widget>
              </item>
              <item row="0" column="2">
               <widget class="QLabel" name="label_12">
@@ -54,44 +75,43 @@
                </property>
               </widget>
              </item>
-             <item row="1" column="4">
-              <widget class="QDoubleSpinBox" name="sourceAngleSpinBox">
-               <property name="maximum">
-                <double>89.000000000000000</double>
-               </property>
-               <property name="singleStep">
-                <double>0.500000000000000</double>
-               </property>
-              </widget>
-             </item>
              <item row="1" column="2">
               <widget class="QDoubleSpinBox" name="sourceYSpinBox">
                <property name="maximum">
                 <double>999.000000000000000</double>
+               </property>
+               <property name="singleStep">
+                <double>0.100000000000000</double>
                </property>
                <property name="value">
                 <double>220.000000000000000</double>
                </property>
               </widget>
              </item>
-             <item row="0" column="1">
-              <widget class="QLabel" name="label_13">
-               <property name="text">
-                <string>X</string>
+             <item row="1" column="4">
+              <widget class="QDoubleSpinBox" name="sourceAngleSpinBox">
+               <property name="minimum">
+                <double>-89.000000000000000</double>
+               </property>
+               <property name="maximum">
+                <double>89.000000000000000</double>
+               </property>
+               <property name="singleStep">
+                <double>0.100000000000000</double>
                </property>
               </widget>
              </item>
-             <item row="1" column="3">
-              <widget class="QDoubleSpinBox" name="sourceSizeSpinBox">
-               <property name="value">
-                <double>1.000000000000000</double>
+             <item row="0" column="4">
+              <widget class="QLabel" name="label_14">
+               <property name="text">
+                <string>Angle</string>
                </property>
               </widget>
              </item>
-             <item row="0" column="3">
-              <widget class="QLabel" name="label_15">
+             <item row="1" column="5">
+              <widget class="QCheckBox" name="symmetricSourceCheckBox">
                <property name="text">
-                <string>Size</string>
+                <string>Symmetric</string>
                </property>
               </widget>
              </item>
@@ -427,6 +447,9 @@
           </item>
           <item>
            <widget class="QGroupBox" name="groupBox_3">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
             <property name="title">
              <string>Deflectors</string>
             </property>
@@ -524,7 +547,58 @@
              </property>
             </widget>
            </item>
-           <item row="3" column="2">
+           <item row="2" column="2">
+            <widget class="QComboBox" name="focalPlaneColorComboBox">
+             <item>
+              <property name="text">
+               <string>k</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>r</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>g</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>b</string>
+              </property>
+             </item>
+            </widget>
+           </item>
+           <item row="0" column="2">
+            <widget class="QLabel" name="label_5">
+             <property name="text">
+              <string>Color</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0">
+            <widget class="QLabel" name="label">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="text">
+              <string>Lens style</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="5">
+            <widget class="QLabel" name="label_18">
+             <property name="text">
+              <string>Label</string>
+             </property>
+            </widget>
+           </item>
+           <item row="4" column="2">
             <widget class="QComboBox" name="rayColorComboBox">
              <property name="currentIndex">
               <number>1</number>
@@ -551,8 +625,29 @@
              </item>
             </widget>
            </item>
-           <item row="1" column="0">
-            <widget class="QLabel" name="label">
+           <item row="4" column="5">
+            <widget class="QCheckBox" name="rayLabelCheckBox">
+             <property name="text">
+              <string/>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="3">
+            <widget class="QDoubleSpinBox" name="focalPlaneLinewidthSpinBox">
+             <property name="value">
+              <double>1.000000000000000</double>
+             </property>
+            </widget>
+           </item>
+           <item row="4" column="3">
+            <widget class="QDoubleSpinBox" name="rayLinewidthSpinBox">
+             <property name="value">
+              <double>1.000000000000000</double>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="QLabel" name="label_6">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
                <horstretch>0</horstretch>
@@ -560,92 +655,75 @@
               </sizepolicy>
              </property>
              <property name="text">
-              <string>Lens style</string>
+              <string>Style</string>
              </property>
             </widget>
            </item>
-           <item row="1" column="1">
-            <widget class="QComboBox" name="lensStyleComboBox">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
+           <item row="0" column="3">
+            <widget class="QLabel" name="label_17">
+             <property name="text">
+              <string>Linewidth</string>
              </property>
-             <item>
-              <property name="text">
-               <string>-</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>--</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>:</string>
-              </property>
-             </item>
             </widget>
            </item>
-           <item row="2" column="1">
-            <widget class="QComboBox" name="focalPlaneStyleComboBox">
-             <property name="currentIndex">
-              <number>1</number>
-             </property>
-             <item>
-              <property name="text">
-               <string>-</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>--</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>:</string>
-              </property>
-             </item>
-            </widget>
-           </item>
-           <item row="3" column="0">
+           <item row="4" column="0">
             <widget class="QLabel" name="label_3">
              <property name="text">
               <string>Ray style</string>
              </property>
             </widget>
            </item>
-           <item row="2" column="2">
-            <widget class="QComboBox" name="focalPlaneColorComboBox">
-             <item>
-              <property name="text">
-               <string>k</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>r</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>g</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>b</string>
-              </property>
-             </item>
-            </widget>
-           </item>
            <item row="2" column="0">
             <widget class="QLabel" name="label_2">
              <property name="text">
               <string>Focal plane style</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="4">
+            <widget class="QDoubleSpinBox" name="focalPlaneAlphaSpinBox">
+             <property name="maximum">
+              <double>1.000000000000000</double>
+             </property>
+             <property name="singleStep">
+              <double>0.100000000000000</double>
+             </property>
+             <property name="value">
+              <double>0.200000000000000</double>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="5">
+            <widget class="QCheckBox" name="focalPlaneLabelCheckBox">
+             <property name="text">
+              <string/>
+             </property>
+             <property name="checked">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="5">
+            <widget class="QCheckBox" name="lensLabelCheckBox">
+             <property name="text">
+              <string/>
+             </property>
+             <property name="checked">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="4">
+            <widget class="QLabel" name="label_4">
+             <property name="text">
+              <string>Alpha</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="3">
+            <widget class="QDoubleSpinBox" name="lensLinewidthSpinBox">
+             <property name="value">
+              <double>1.000000000000000</double>
              </property>
             </widget>
            </item>
@@ -679,47 +757,54 @@
              </item>
             </widget>
            </item>
-           <item row="0" column="4">
-            <widget class="QLabel" name="label_4">
-             <property name="text">
-              <string>Alpha</string>
+           <item row="2" column="1">
+            <widget class="QComboBox" name="focalPlaneStyleComboBox">
+             <property name="currentIndex">
+              <number>1</number>
              </property>
+             <item>
+              <property name="text">
+               <string>-</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>--</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>:</string>
+              </property>
+             </item>
             </widget>
            </item>
-           <item row="0" column="2">
-            <widget class="QLabel" name="label_5">
-             <property name="text">
-              <string>Color</string>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="1">
-            <widget class="QLabel" name="label_6">
+           <item row="1" column="1">
+            <widget class="QComboBox" name="lensStyleComboBox">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
                <horstretch>0</horstretch>
                <verstretch>0</verstretch>
               </sizepolicy>
              </property>
-             <property name="text">
-              <string>Style</string>
-             </property>
+             <item>
+              <property name="text">
+               <string>-</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>--</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>:</string>
+              </property>
+             </item>
             </widget>
            </item>
-           <item row="2" column="4">
-            <widget class="QDoubleSpinBox" name="focalPlaneAlphaSpinBox">
-             <property name="maximum">
-              <double>1.000000000000000</double>
-             </property>
-             <property name="singleStep">
-              <double>0.100000000000000</double>
-             </property>
-             <property name="value">
-              <double>0.200000000000000</double>
-             </property>
-            </widget>
-           </item>
-           <item row="3" column="4">
+           <item row="4" column="4">
             <widget class="QDoubleSpinBox" name="rayAlphaSpinBox">
              <property name="maximum">
               <double>1.000000000000000</double>
@@ -730,6 +815,78 @@
              <property name="value">
               <double>1.000000000000000</double>
              </property>
+            </widget>
+           </item>
+           <item row="3" column="0">
+            <widget class="QCheckBox" name="imagePlaneCheckBox">
+             <property name="text">
+              <string>Image style</string>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="3">
+            <widget class="QDoubleSpinBox" name="imagePlaneLinewidthSpinBox">
+             <property name="value">
+              <double>1.000000000000000</double>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="4">
+            <widget class="QDoubleSpinBox" name="imagePlaneAlphaSpinBox">
+             <property name="value">
+              <double>0.200000000000000</double>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="2">
+            <widget class="QComboBox" name="imagePlaneColorComboBox">
+             <item>
+              <property name="text">
+               <string>k</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>r</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>g</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>b</string>
+              </property>
+             </item>
+            </widget>
+           </item>
+           <item row="3" column="1">
+            <widget class="QComboBox" name="imagePlaneStylComboBox">
+             <property name="currentIndex">
+              <number>1</number>
+             </property>
+             <item>
+              <property name="text">
+               <string>.</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>-</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>--</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>:</string>
+              </property>
+             </item>
             </widget>
            </item>
           </layout>
@@ -760,7 +917,7 @@
      <x>0</x>
      <y>0</y>
      <width>777</width>
-     <height>26</height>
+     <height>22</height>
     </rect>
    </property>
   </widget>
