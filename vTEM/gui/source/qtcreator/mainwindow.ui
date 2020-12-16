@@ -161,23 +161,44 @@
                </property>
               </widget>
              </item>
-             <item row="4" column="2">
-              <widget class="QDoubleSpinBox" name="cmYSpinBox">
-               <property name="maximum">
-                <double>999.000000000000000</double>
-               </property>
-               <property name="value">
-                <double>140.000000000000000</double>
+             <item row="3" column="1">
+              <widget class="QDoubleSpinBox" name="cl3XSpinBox"/>
+             </item>
+             <item row="4" column="0">
+              <widget class="QCheckBox" name="cmCheckBox">
+               <property name="text">
+                <string>CM</string>
                </property>
               </widget>
              </item>
-             <item row="8" column="2">
-              <widget class="QDoubleSpinBox" name="il2YSpinBox">
-               <property name="maximum">
-                <double>999.000000000000000</double>
-               </property>
+             <item row="9" column="3">
+              <widget class="QDoubleSpinBox" name="il3FSpinBox">
                <property name="value">
-                <double>60.000000000000000</double>
+                <double>2.000000000000000</double>
+               </property>
+              </widget>
+             </item>
+             <item row="6" column="1">
+              <widget class="QDoubleSpinBox" name="omXSpinBox"/>
+             </item>
+             <item row="10" column="3">
+              <widget class="QDoubleSpinBox" name="plFSpinBox">
+               <property name="value">
+                <double>2.000000000000000</double>
+               </property>
+              </widget>
+             </item>
+             <item row="5" column="3">
+              <widget class="QDoubleSpinBox" name="olFSpinBox">
+               <property name="value">
+                <double>2.000000000000000</double>
+               </property>
+              </widget>
+             </item>
+             <item row="3" column="3">
+              <widget class="QDoubleSpinBox" name="cl3FSpinBox">
+               <property name="value">
+                <double>2.000000000000000</double>
                </property>
               </widget>
              </item>
@@ -188,28 +209,25 @@
                </property>
               </widget>
              </item>
-             <item row="1" column="2">
-              <widget class="QDoubleSpinBox" name="cl1YSpinBox">
-               <property name="maximum">
-                <double>999.000000000000000</double>
-               </property>
-               <property name="value">
-                <double>200.000000000000000</double>
+             <item row="2" column="0">
+              <widget class="QCheckBox" name="cl2CheckBox">
+               <property name="text">
+                <string>CL2</string>
                </property>
               </widget>
              </item>
-             <item row="3" column="1">
-              <widget class="QDoubleSpinBox" name="cl3XSpinBox"/>
+             <item row="7" column="1">
+              <widget class="QDoubleSpinBox" name="il1XSpinBox"/>
              </item>
-             <item row="4" column="3">
-              <widget class="QDoubleSpinBox" name="cmFSpinBox">
-               <property name="value">
-                <double>2.000000000000000</double>
+             <item row="8" column="1">
+              <widget class="QDoubleSpinBox" name="il2XSpinBox"/>
+             </item>
+             <item row="3" column="0">
+              <widget class="QCheckBox" name="cl3CheckBox">
+               <property name="text">
+                <string>CL3</string>
                </property>
               </widget>
-             </item>
-             <item row="1" column="1">
-              <widget class="QDoubleSpinBox" name="cl1XSpinBox"/>
              </item>
              <item row="5" column="2">
               <widget class="QDoubleSpinBox" name="olYSpinBox">
@@ -228,33 +246,30 @@
                </property>
               </widget>
              </item>
-             <item row="8" column="1">
-              <widget class="QDoubleSpinBox" name="il2XSpinBox"/>
-             </item>
-             <item row="5" column="1">
-              <widget class="QDoubleSpinBox" name="olXSpinBox"/>
-             </item>
-             <item row="3" column="3">
-              <widget class="QDoubleSpinBox" name="cl3FSpinBox">
-               <property name="value">
-                <double>2.000000000000000</double>
-               </property>
-              </widget>
-             </item>
-             <item row="0" column="1">
-              <widget class="QLabel" name="label_7">
+             <item row="10" column="0">
+              <widget class="QCheckBox" name="plCheckBox">
                <property name="text">
-                <string>X</string>
+                <string>PL</string>
                </property>
               </widget>
              </item>
-             <item row="3" column="2">
-              <widget class="QDoubleSpinBox" name="cl3YSpinBox">
-               <property name="maximum">
-                <double>999.000000000000000</double>
+             <item row="4" column="1">
+              <widget class="QDoubleSpinBox" name="cmXSpinBox"/>
+             </item>
+             <item row="1" column="0">
+              <widget class="QCheckBox" name="cl1CheckBox">
+               <property name="text">
+                <string>CL1</string>
                </property>
-               <property name="value">
-                <double>160.000000000000000</double>
+              </widget>
+             </item>
+             <item row="1" column="1">
+              <widget class="QDoubleSpinBox" name="cl1XSpinBox"/>
+             </item>
+             <item row="0" column="2">
+              <widget class="QLabel" name="label_8">
+               <property name="text">
+                <string>Y</string>
                </property>
               </widget>
              </item>
@@ -265,20 +280,27 @@
                </property>
               </widget>
              </item>
-             <item row="1" column="0">
-              <widget class="QCheckBox" name="cl1CheckBox">
-               <property name="text">
-                <string>CL1</string>
-               </property>
-              </widget>
-             </item>
-             <item row="4" column="1">
-              <widget class="QDoubleSpinBox" name="cmXSpinBox"/>
-             </item>
              <item row="6" column="3">
               <widget class="QDoubleSpinBox" name="omFSpinBox">
                <property name="value">
                 <double>2.000000000000000</double>
+               </property>
+              </widget>
+             </item>
+             <item row="4" column="3">
+              <widget class="QDoubleSpinBox" name="cmFSpinBox">
+               <property name="value">
+                <double>2.000000000000000</double>
+               </property>
+              </widget>
+             </item>
+             <item row="5" column="1">
+              <widget class="QDoubleSpinBox" name="olXSpinBox"/>
+             </item>
+             <item row="9" column="0">
+              <widget class="QCheckBox" name="il3CheckBox">
+               <property name="text">
+                <string>IL3</string>
                </property>
               </widget>
              </item>
@@ -289,63 +311,30 @@
                </property>
               </widget>
              </item>
-             <item row="6" column="1">
-              <widget class="QDoubleSpinBox" name="omXSpinBox"/>
+             <item row="8" column="2">
+              <widget class="QDoubleSpinBox" name="il2YSpinBox">
+               <property name="maximum">
+                <double>999.000000000000000</double>
+               </property>
+               <property name="value">
+                <double>60.000000000000000</double>
+               </property>
+              </widget>
              </item>
-             <item row="0" column="2">
-              <widget class="QLabel" name="label_8">
+             <item row="10" column="2">
+              <widget class="QDoubleSpinBox" name="plYSpinBox">
+               <property name="maximum">
+                <double>999.000000000000000</double>
+               </property>
+               <property name="value">
+                <double>20.000000000000000</double>
+               </property>
+              </widget>
+             </item>
+             <item row="8" column="0">
+              <widget class="QCheckBox" name="il2CheckBox">
                <property name="text">
-                <string>Y</string>
-               </property>
-              </widget>
-             </item>
-             <item row="8" column="3">
-              <widget class="QDoubleSpinBox" name="il2FSpinBox">
-               <property name="value">
-                <double>2.000000000000000</double>
-               </property>
-              </widget>
-             </item>
-             <item row="9" column="1">
-              <widget class="QDoubleSpinBox" name="il3XSpinBox"/>
-             </item>
-             <item row="7" column="1">
-              <widget class="QDoubleSpinBox" name="il1XSpinBox"/>
-             </item>
-             <item row="2" column="1">
-              <widget class="QDoubleSpinBox" name="cl2XSpinBox"/>
-             </item>
-             <item row="5" column="3">
-              <widget class="QDoubleSpinBox" name="olFSpinBox">
-               <property name="value">
-                <double>2.000000000000000</double>
-               </property>
-              </widget>
-             </item>
-             <item row="9" column="3">
-              <widget class="QDoubleSpinBox" name="il3FSpinBox">
-               <property name="value">
-                <double>2.000000000000000</double>
-               </property>
-              </widget>
-             </item>
-             <item row="2" column="2">
-              <widget class="QDoubleSpinBox" name="cl2YSpinBox">
-               <property name="maximum">
-                <double>999.000000000000000</double>
-               </property>
-               <property name="value">
-                <double>180.000000000000000</double>
-               </property>
-              </widget>
-             </item>
-             <item row="9" column="2">
-              <widget class="QDoubleSpinBox" name="il3YSpinBox">
-               <property name="maximum">
-                <double>999.000000000000000</double>
-               </property>
-               <property name="value">
-                <double>40.000000000000000</double>
+                <string>IL2</string>
                </property>
               </widget>
              </item>
@@ -362,55 +351,30 @@
              <item row="10" column="1">
               <widget class="QDoubleSpinBox" name="plXSpinBox"/>
              </item>
-             <item row="10" column="2">
-              <widget class="QDoubleSpinBox" name="plYSpinBox">
-               <property name="maximum">
-                <double>999.000000000000000</double>
-               </property>
-               <property name="value">
-                <double>20.000000000000000</double>
-               </property>
-              </widget>
-             </item>
-             <item row="10" column="3">
-              <widget class="QDoubleSpinBox" name="plFSpinBox">
-               <property name="value">
-                <double>2.000000000000000</double>
-               </property>
-              </widget>
-             </item>
-             <item row="2" column="0">
-              <widget class="QCheckBox" name="cl2CheckBox">
-               <property name="text">
-                <string>CL2</string>
-               </property>
-              </widget>
-             </item>
-             <item row="3" column="0">
-              <widget class="QCheckBox" name="cl3CheckBox">
-               <property name="text">
-                <string>CL3</string>
-               </property>
-              </widget>
-             </item>
-             <item row="4" column="0">
-              <widget class="QCheckBox" name="cmCheckBox">
-               <property name="text">
-                <string>CM</string>
-               </property>
-              </widget>
-             </item>
-             <item row="5" column="0">
-              <widget class="QCheckBox" name="olCheckBox">
-               <property name="text">
-                <string>OL</string>
-               </property>
-              </widget>
-             </item>
              <item row="6" column="0">
               <widget class="QCheckBox" name="omCheckBox">
                <property name="text">
                 <string>OM</string>
+               </property>
+              </widget>
+             </item>
+             <item row="3" column="2">
+              <widget class="QDoubleSpinBox" name="cl3YSpinBox">
+               <property name="maximum">
+                <double>999.000000000000000</double>
+               </property>
+               <property name="value">
+                <double>160.000000000000000</double>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="2">
+              <widget class="QDoubleSpinBox" name="cl1YSpinBox">
+               <property name="maximum">
+                <double>999.000000000000000</double>
+               </property>
+               <property name="value">
+                <double>200.000000000000000</double>
                </property>
               </widget>
              </item>
@@ -421,24 +385,130 @@
                </property>
               </widget>
              </item>
-             <item row="8" column="0">
-              <widget class="QCheckBox" name="il2CheckBox">
-               <property name="text">
-                <string>IL2</string>
+             <item row="8" column="3">
+              <widget class="QDoubleSpinBox" name="il2FSpinBox">
+               <property name="value">
+                <double>2.000000000000000</double>
                </property>
               </widget>
              </item>
-             <item row="9" column="0">
-              <widget class="QCheckBox" name="il3CheckBox">
+             <item row="0" column="1">
+              <widget class="QLabel" name="label_7">
                <property name="text">
-                <string>IL3</string>
+                <string>X</string>
                </property>
               </widget>
              </item>
-             <item row="10" column="0">
-              <widget class="QCheckBox" name="plCheckBox">
+             <item row="9" column="2">
+              <widget class="QDoubleSpinBox" name="il3YSpinBox">
+               <property name="maximum">
+                <double>999.000000000000000</double>
+               </property>
+               <property name="value">
+                <double>40.000000000000000</double>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="2">
+              <widget class="QDoubleSpinBox" name="cl2YSpinBox">
+               <property name="maximum">
+                <double>999.000000000000000</double>
+               </property>
+               <property name="value">
+                <double>180.000000000000000</double>
+               </property>
+              </widget>
+             </item>
+             <item row="5" column="0">
+              <widget class="QCheckBox" name="olCheckBox">
                <property name="text">
-                <string>PL</string>
+                <string>OL</string>
+               </property>
+              </widget>
+             </item>
+             <item row="4" column="2">
+              <widget class="QDoubleSpinBox" name="cmYSpinBox">
+               <property name="maximum">
+                <double>999.000000000000000</double>
+               </property>
+               <property name="value">
+                <double>140.000000000000000</double>
+               </property>
+              </widget>
+             </item>
+             <item row="9" column="1">
+              <widget class="QDoubleSpinBox" name="il3XSpinBox"/>
+             </item>
+             <item row="2" column="1">
+              <widget class="QDoubleSpinBox" name="cl2XSpinBox"/>
+             </item>
+             <item row="1" column="4">
+              <widget class="QPushButton" name="printCL1">
+               <property name="text">
+                <string>Print</string>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="4">
+              <widget class="QPushButton" name="printCL2">
+               <property name="text">
+                <string>Print</string>
+               </property>
+              </widget>
+             </item>
+             <item row="3" column="4">
+              <widget class="QPushButton" name="printCL3">
+               <property name="text">
+                <string>Print</string>
+               </property>
+              </widget>
+             </item>
+             <item row="4" column="4">
+              <widget class="QPushButton" name="printCM">
+               <property name="text">
+                <string>Print</string>
+               </property>
+              </widget>
+             </item>
+             <item row="5" column="4">
+              <widget class="QPushButton" name="printOL">
+               <property name="text">
+                <string>Print</string>
+               </property>
+              </widget>
+             </item>
+             <item row="6" column="4">
+              <widget class="QPushButton" name="printOM">
+               <property name="text">
+                <string>Print</string>
+               </property>
+              </widget>
+             </item>
+             <item row="7" column="4">
+              <widget class="QPushButton" name="printIL1">
+               <property name="text">
+                <string>Print</string>
+               </property>
+              </widget>
+             </item>
+             <item row="8" column="4">
+              <widget class="QPushButton" name="printIL2">
+               <property name="text">
+                <string>Print</string>
+               </property>
+              </widget>
+             </item>
+             <item row="9" column="4">
+              <widget class="QPushButton" name="printIL3">
+               <property name="text">
+                <string>Print</string>
+               </property>
+              </widget>
+             </item>
+             <item row="10" column="4">
+              <widget class="QPushButton" name="printPL">
+               <property name="text">
+                <string>Print</string>
                </property>
               </widget>
              </item>

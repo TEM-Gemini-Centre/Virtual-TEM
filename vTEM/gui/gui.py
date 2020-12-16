@@ -118,6 +118,7 @@ class vTEMController(object):
         self._view.sourceYSpinBox.valueChanged.connect(lambda y: self._model.change_source(y=y))
         self._view.sourceSizeSpinBox.valueChanged.connect(lambda size: self._model.change_source(size=size))
         self._view.sourceAngleSpinBox.valueChanged.connect(self.show)
+        self._view.symmetricSourceCheckBox.clicked.connect(self.show)
 
     def setup_screen_control(self):
         self._view.screenSpinBox.valueChanged.connect(self.show)
@@ -133,6 +134,17 @@ class vTEMController(object):
         self._view.il2CheckBox.clicked.connect(self.show)
         self._view.il3CheckBox.clicked.connect(self.show)
         self._view.plCheckBox.clicked.connect(self.show)
+
+        self._view.printCL1.clicked.connect(lambda x: print(self._model.CL1))
+        self._view.printCL2.clicked.connect(lambda x: print(self._model.CL2))
+        self._view.printCL3.clicked.connect(lambda x: print(self._model.CL3))
+        self._view.printCM.clicked.connect(lambda x: print(self._model.CM))
+        self._view.printOM.clicked.connect(lambda x: print(self._model.OL))
+        self._view.printOL.clicked.connect(lambda x: print(self._model.OM))
+        self._view.printIL1.clicked.connect(lambda x: print(self._model.IL1))
+        self._view.printIL2.clicked.connect(lambda x: print(self._model.IL2))
+        self._view.printIL3.clicked.connect(lambda x: print(self._model.IL3))
+        self._view.printPL.clicked.connect(lambda x: print(self._model.PL))
 
 
         self._view.cl1XSpinBox.valueChanged.connect(lambda x: self._model.change_lens('CL1', x=x))
@@ -167,6 +179,17 @@ class vTEMController(object):
         self._view.il2FSpinBox.valueChanged.connect(lambda f: self._model.change_lens('IL2', f=f))
         self._view.il3FSpinBox.valueChanged.connect(lambda f: self._model.change_lens('IL3', f=f))
         self._view.plFSpinBox.valueChanged.connect(lambda f: self._model.change_lens('PL', f=f))
+
+        self._view.cl1FSpinBox.setSingleStep(0.1)
+        self._view.cl2FSpinBox.setSingleStep(0.1)
+        self._view.cl3FSpinBox.setSingleStep(0.1)
+        self._view.cmFSpinBox.setSingleStep(0.1)
+        self._view.omFSpinBox.setSingleStep(0.1)
+        self._view.olFSpinBox.setSingleStep(0.1)
+        self._view.il1FSpinBox.setSingleStep(0.1)
+        self._view.il2FSpinBox.setSingleStep(0.1)
+        self._view.il3FSpinBox.setSingleStep(0.1)
+        self._view.plFSpinBox.setSingleStep(0.1)
 
     def set_y_spinbox_limits(self):
         self._view.cl1YSpinBox.setMaximum(self._model.source.y-1e-2)
@@ -217,6 +240,7 @@ class vTEMController(object):
         self._view.cl2YSpinBox.valueChanged.connect(lambda y: self._view.cl1YSpinBox.setMinimum(y+1e-2))
         self._view.cl1YSpinBox.valueChanged.connect(lambda y: self._view.sourceYSpinBox.setMinimum(y+1e-2))
 
+
     def get_active_lenses(self, names=False):
         active_lenses = []
         if self._view.cl1CheckBox.isChecked():
@@ -244,8 +268,9 @@ class vTEMController(object):
             return [lens.name for lens in active_lenses]
         return active_lenses
 
-    def make_raytrace(self):
-        initial_ray = self._model.source.emit_ray(self._view.sourceAngleSpinBox.value(), 1)
+    def make_raytrace(self, initial_ray=None):
+        if initial_ray is None:
+            initial_ray = self._model.source.emit_ray(self._view.sourceAngleSpinBox.value(), 1)
         rays = [initial_ray]
         lenses = self._model.get_lenses()#self.get_active_lenses()
         active_lenses = self.get_active_lenses()
@@ -259,10 +284,21 @@ class vTEMController(object):
                     rays.append(transmitted_ray)
         return rays
 
+    def resize_lenses(self, left, right):
+        """"
+        Resizes the lenses to span at least to left or right, whichever is farthest from the lens centre
+        """
+        for lens in self.get_active_lenses():
+            left_offset = left - lens.x
+            right_offset = right - lens.x
+            size = 2*max([abs(left_offset), abs(right_offset)])
+            lens.set_size(size)
+
     def show_source(self):
         self._model.source.show(self._view.plotWidget.canvas.ax)
 
-    def show_lenses(self):
+
+    def show_lenses(self, resize=False):
         for lens in self.get_active_lenses():
             lens.show(self._view.plotWidget.canvas.ax, lensprops={
                 'ffp': {'linestyle': self._view.focalPlaneStyleComboBox.currentText(),
@@ -275,16 +311,23 @@ class vTEMController(object):
                          'color': self._view.lensColorComboBox.currentText(),
                          'alpha': self._view.lensAlphaSpinBox.value()}})
 
-    def show_raytrace(self):
-        for ray in self.make_raytrace():
+    def show_raytrace(self, initial_ray=None):
+        raytraces = self.make_raytrace(initial_ray)
+        for ray in raytraces:
             ray.show(self._view.plotWidget.canvas.ax, arrowprops={'color': self._view.rayColorComboBox.currentText(),
                                                                   'alpha': self._view.rayAlphaSpinBox.value()})
+
+        return raytraces
 
     def show(self):
         self._view.plotWidget.canvas.ax.cla()
         self.show_source()
-        self.show_lenses()
-        self.show_raytrace()
+        raytraces = self.show_raytrace()
+        if self._view.symmetricSourceCheckBox.isChecked():
+            symmetric_rays = self.show_raytrace(initial_ray = self._model.source.emit_ray(-self._view.sourceAngleSpinBox.value(), -1))
+            raytraces = raytraces + symmetric_rays
+        self.resize_lenses(min([ray.stop.x for ray in raytraces]), max([ray.stop.x for ray in raytraces]))
+        self.show_lenses(resize=True)
         self._view.plotWidget.canvas.draw()
 
 

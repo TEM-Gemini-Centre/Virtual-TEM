@@ -120,7 +120,8 @@ class Lens(object):
     def show(self, ax, *args, lensprops=None):  # , **kwargs):
         plotstyle = {'ffp': {'linestyle': '--', 'color': 'k', 'alpha': 0.2},
                      'bfp': {'linestyle': '--', 'color': 'k', 'alpha': 0.2},
-                     'lens': {'linestyle': '-', 'color': 'k', 'alpha': 0.5}}
+                     'lens': {'linestyle': '-', 'color': 'k', 'alpha': 0.5},
+                     'axis': {'linestyle': '-', 'color': 'k', 'alpha': 0.2}}
         if lensprops is None:
             lensprops = {}
         plotstyle.update(lensprops)
@@ -129,6 +130,7 @@ class Lens(object):
                 [self.y + self.focal_length, self.y + self.focal_length], *args, **plotstyle.get('ffp'))
         ax.plot([self.x - self.size / 2, self.x + self.size / 2],
                 [self.y - self.focal_length, self.y - self.focal_length], *args, **plotstyle.get('bfp'))
+        ax.plot([self.x, self.x], [self.y + self.focal_length, self.y + self.focal_length], *args, **plotstyle.get('axis'))
         ax.annotate('{self.name}'.format(self=self), xy=(self.x + self.size / 2, self.y), ha='left', va='center')
         ax.annotate('{self.name} FFP'.format(self=self), xy=(self.x + self.size / 2, self.y + self.focal_length),
                     ha='left', va='center')
@@ -186,7 +188,7 @@ class Source(object):
         Return a ray emitted from the source
         :param length: The length of the emitted ray along the optical axis.
         :param angle: The angle of the emitted ray in degrees
-        :param position: The initial point of the ray in a fraction of the size of the ray
+        :param position: The initial point of the ray in a fraction of the size of the source size
         :return: The emitted ray
         :rtype: Ray
         """
